@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SchoolMeetings.Mobile.ViewModels"
+             xmlns:models="clr-namespace:SchoolMeetings.Mobile.Models"
+             x:Class="SchoolMeetings.Mobile.Views.BookingConfirmPage"
+             x:DataType="vm:BookingConfirmViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <Label Text="Conferma la tua prenotazione"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"/>
+
+            <Border Stroke="#4A90E2"
+                    StrokeThickness="2"
+                    Padding="15"
+                    BackgroundColor="#4A90E2">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Dettagli Colloquio"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,10"/>
+                    <Label Text="{Binding MeetingInfo}"
+                           FontSize="14"
+                           LineBreakMode="WordWrap"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Seleziona Figlio *"
+                       FontSize="16"
+                       FontAttributes="Bold"/>
+
+                <Border Stroke="Gray"
+                        StrokeThickness="1"
+                        Padding="10">
+                    <Picker ItemsSource="{Binding Students}"
+                            SelectedItem="{Binding SelectedStudent}"
+                            ItemDisplayBinding="{Binding FullName}"
+                            Title="Scegli uno studente"/>
+                </Border>
+
+                <Label Text="{Binding SelectedStudent.Class, StringFormat='Classe: {0}'}"
+                       FontSize="14"
+                       TextColor="Gray"
+                       IsVisible="{Binding SelectedStudent, Converter={StaticResource StringNotEmptyConverter}}"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="10">
+                <Label Text="Note per il Docente (opzionale)"
+                       FontSize="16"
+                       FontAttributes="Bold"/>
+
+                <Border Stroke="Gray"
+                        StrokeThickness="1"
+                        Padding="10">
+                    <Editor Placeholder="Es: Vorrei parlare del rendimento scolastico..."
+                            Text="{Binding ParentNotes}"
+                            HeightRequest="120"
+                            AutoSize="TextChanges"/>
+                </Border>
+            </VerticalStackLayout>
+
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="Red"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   LineBreakMode="WordWrap"/>
+
+            <Border Stroke="Orange"
+                    StrokeThickness="2"
+                    Padding="15"
+                    BackgroundColor="#FFF3E0">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Importante"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#E65100"/>
+                    <Label Text="- Puoi avere solo 1 prenotazione per docente"
+                           FontSize="12"
+                           TextColor="#E65100"/>
+                    <Label Text="- Puoi cancellare fino a 30 minuti prima"
+                           FontSize="12"
+                           TextColor="#E65100"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,10,0,0">
+                <Button Grid.Column="0"
+                        Text="Annulla"
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="Gray"/>
+
+                <Button Grid.Column="1"
+                        Text="Conferma"
+                        Command="{Binding ConfirmBookingCommand}"
+                        BackgroundColor="#4A90E2"
+                        IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
+            </Grid>
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                              IsVisible="{Binding IsBusy}"
+                              HorizontalOptions="Center"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SchoolMeetings.Mobile.ViewModels"
+             xmlns:models="clr-namespace:SchoolMeetings.Mobile.Models"
+             x:Class="SchoolMeetings.Mobile.Views.TimeSlotsPage"
+             x:DataType="vm:TimeSlotsViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+
+        <Border Grid.Row="1"
+                Stroke="#4A90E2"
+                StrokeThickness="2"
+                Padding="15"
+                Margin="10,10,10,0">
+            <VerticalStackLayout Spacing="4">
+                <Label Text="{Binding TeacherInfo}"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+                <Label Text="{Binding ClassroomInfo}"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+                <Label Text="{Binding TodayDate}"
+                       FontSize="15"
+                       TextColor="Gray"
+                       HorizontalOptions="Center"/>
+                <Switch IsToggled="{Binding NotifyOnNewSlots}"
+                OnColor="#4A90E2"
+                IsEnabled="{Binding IsLoadingPreference, Converter={StaticResource InvertedBoolConverter}}"
+                VerticalOptions="Center"/>
+                <Label Text="Notificami quando il docente crea degli slot o quando si libera uno slot per questo docente"
+                FontSize="14"
+                VerticalOptions="Center"
+                LineBreakMode="WordWrap"/>
+
+                <ActivityIndicator IsRunning="{Binding IsLoadingPreference}"
+                          IsVisible="{Binding IsLoadingPreference}"
+                          WidthRequest="20"
+                          HeightRequest="20"/>
+            </VerticalStackLayout>
+        </Border>
+
+        <Button Grid.Row="2"
+                Text="Aggiorna Orari"
+                Command="{Binding LoadTimeSlotsCommand}"
+                Margin="10,0"/>
+
+        <CollectionView Grid.Row="3"
+                       ItemsSource="{Binding TimeSlots}"
+                       Margin="10">
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center" 
+                                    HorizontalOptions="Center"
+                                    Spacing="15"
+                                    Padding="20">
+                    <Label Text="Nessuno slot disponibile oggi"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Riprova domani o contatta il docente"
+                           FontSize="14"
+                           TextColor="Gray"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:TimeSlot">
+                    <Border Stroke="LightGray"
+                            StrokeThickness="1"
+                            Padding="15"
+                            Margin="0,5"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundColorLight},Dark={StaticResource CardBackgroundColorDark}}">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding x:DataType=vm:TimeSlotsViewModel, Source={RelativeSource AncestorType={x:Type vm:TimeSlotsViewModel}}, Path=SlotSelectedCommand}" 
+                                          CommandParameter="{Binding .}"/>
+                        </Border.GestureRecognizers>
+                        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*,Auto">
+
+                            <Ellipse Grid.Row="0" Grid.Column="0" Grid.RowSpan="2"
+                                     Fill="#4A90E2"
+                                     WidthRequest="40"
+                                     HeightRequest="40"
+                                     VerticalOptions="Center"
+                                     Margin="0,0,15,0"/>
+
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding TimeRange}"
+                                   FontSize="20"
+                                   FontAttributes="Bold"/>
+
+                            <Label Grid.Row="1" Grid.Column="1"
+                                   Text="{Binding DurationFormatted}"
+                                   FontSize="14"
+                                   TextColor="Gray"/>
+
+                            <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
+                                    Stroke="#50C878"
+                                    StrokeThickness="2"
+                                    Padding="10,5"
+                                    VerticalOptions="Center"
+                                    BackgroundColor="#E8F5E9">
+                                <Label Text="Disponibile"
+                                       FontSize="12"
+                                       TextColor="#2E7D32"
+                                       FontAttributes="Bold"/>
+                            </Border>
+
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ActivityIndicator Grid.Row="3"
+                          IsRunning="{Binding IsBusy}"
+                          IsVisible="{Binding IsBusy}"
+                          HorizontalOptions="Center"
+                          VerticalOptions="Center"/>
+
+        <Border Grid.Row="4"
+                Stroke="Orange"
+                StrokeThickness="1"
+                Padding="10"
+                Margin="10"
+                BackgroundColor="#FFF3E0">
+            <Label Text="Puoi prenotare solo un'ora prima del colloquio"
+                   FontSize="12"
+                   TextColor="#E65100"
+                   HorizontalTextAlignment="Center"/>
+        </Border>
+
+    </Grid>
+
+</ContentPage>

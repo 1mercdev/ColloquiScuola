@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SchoolMeetings.Mobile.ViewModels"
+             xmlns:models="clr-namespace:SchoolMeetings.Mobile.Models"
+             x:Class="SchoolMeetings.Mobile.Views.TeacherBookingsPage"
+             x:DataType="vm:TeacherBookingsViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <Button Grid.Row="0"
+                Text="Aggiorna"
+                Command="{Binding LoadBookingsCommand}"
+                Margin="10"
+                IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
+
+        <CollectionView Grid.Row="1"
+                       ItemsSource="{Binding Bookings}"
+                       Margin="10">
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center" 
+                                    HorizontalOptions="Center"
+                                    Spacing="15"
+                                    Padding="20">
+                    <Label Text="Nessun colloquio prenotato"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Label Text="I genitori possono prenotare dalla loro app"
+                           FontSize="14"
+                           TextColor="Gray"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:TeacherBooking">
+                    <Border Stroke="LightGray"
+                            StrokeThickness="1"
+                            Padding="15"
+                            Margin="0,5"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource CardBackgroundColorLight},Dark={StaticResource CardBackgroundColorDark}}">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding x:DataType=vm:TeacherBookingsViewModel, Source={RelativeSource AncestorType={x:Type vm:TeacherBookingsViewModel}}, Path=ViewBookingDetailsCommand}"
+                                CommandParameter="{Binding .}"/>
+                        </Border.GestureRecognizers>
+
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto">
+
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="{Binding MeetingDateFormatted}"
+                                   FontSize="16"
+                                   FontAttributes="Bold"/>
+
+                            <Label Grid.Row="0" Grid.Column="1"
+                                   Text="{Binding MeetingTimeFormatted}"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#4A90E2"
+                                   HorizontalOptions="End"/>
+
+                            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                   Text="{Binding StudentInfo}"
+                                   FontSize="15"
+                                   Margin="0,5,0,0"/>
+
+                            <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                   Text="{Binding ParentName, StringFormat='Genitore: {0}'}"
+                                   FontSize="14"
+                                   TextColor="Gray"/>
+
+                            <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                   Text="{Binding ParentNotes, StringFormat='Note: {0}'}"
+                                   FontSize="13"
+                                   TextColor="Gray"
+                                   LineBreakMode="TailTruncation"
+                                   MaxLines="2"
+                                   Margin="0,5,0,0"
+                                   IsVisible="{Binding ParentNotes, Converter={StaticResource StringNotEmptyConverter}}"/>
+
+                            <HorizontalStackLayout Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                                                  Spacing="10"
+                                                  Margin="0,10,0,0">
+                                <Button Text="Aggiungi Note"
+                                        Command="{Binding x:DataType=vm:TeacherBookingsViewModel, Source={RelativeSource AncestorType={x:Type vm:TeacherBookingsViewModel}}, Path=AddNotesCommand}"
+                                        CommandParameter="{Binding .}"
+                                        FontSize="12"
+                                        Padding="10,5"
+                                        BackgroundColor="#4A90E2"/>
+
+                                <Button Text="Cancella"
+                                        Command="{Binding x:DataType=vm:TeacherBookingsViewModel, Source={RelativeSource AncestorType={x:Type vm:TeacherBookingsViewModel}}, Path=SkipBookingCommand}"
+                                        CommandParameter="{Binding .}"
+                                        FontSize="12"
+                                        Padding="10,5"
+                                        BackgroundColor="Red"/>
+                            </HorizontalStackLayout>
+
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ActivityIndicator Grid.Row="1"
+                          IsRunning="{Binding IsBusy}"
+                          IsVisible="{Binding IsBusy}"
+                          HorizontalOptions="Center"
+                          VerticalOptions="Center"/>
+
+    </Grid>
+
+</ContentPage>

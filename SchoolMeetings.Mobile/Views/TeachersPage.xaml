@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SchoolMeetings.Mobile.ViewModels"
+             xmlns:models="clr-namespace:SchoolMeetings.Mobile.Models"
+             x:Class="SchoolMeetings.Mobile.Views.TeachersPage"
+             x:DataType="vm:TeachersViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,Auto,*">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnPageTapped" />
+        </Grid.GestureRecognizers>
+
+        <Button Grid.Row="0"
+                Text="Aggiorna"
+                Command="{Binding LoadTeachersCommand}"
+                Margin="10"/>
+
+        <Border Grid.Row="1"
+                Stroke="Gray"
+                StrokeThickness="1"
+                Margin="10,0,10,10"
+                Padding="5">
+            <SearchBar Placeholder="Cerca per nome o materia..."
+                       Text="{Binding SearchText}"
+                       SearchCommand="{Binding LoadTeachersCommand}"/>
+        </Border>
+
+        <CollectionView Grid.Row="2"
+                       ItemsSource="{Binding Teachers}">
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <Label Text="Nessun docente trovato"
+                           FontSize="18"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Premi 'Aggiorna' per caricare o modifica la ricerca"
+                           FontSize="14"
+                           TextColor="Gray"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Teacher">
+                    <Border Stroke="Gray"
+                            StrokeThickness="1"
+                            Padding="10"
+                            Margin="10,5">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding x:DataType=vm:TeachersViewModel, Source={RelativeSource AncestorType={x:Type vm:TeachersViewModel}}, Path=TeacherSelectedCommand}" 
+                                          CommandParameter="{Binding .}"/>
+                        </Border.GestureRecognizers>
+                        <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,Auto">
+
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="{Binding FullName}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"/>
+
+                            <Label Grid.Row="1" Grid.Column="0"
+                                   Text="{Binding Subject}"
+                                   FontSize="14"
+                                   TextColor="Gray"/>
+
+                            <Label Grid.Row="2" Grid.Column="0"
+                                   Text="{Binding Classroom, StringFormat='Aula: {0}'}"
+                                   FontSize="13"
+                                   TextColor="Gray"
+                                   IsVisible="{Binding Classroom, Converter={StaticResource StringNotEmptyConverter}}"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <ActivityIndicator Grid.Row="2"
+                          IsRunning="{Binding IsBusy}"
+                          IsVisible="{Binding IsBusy}"
+                          HorizontalOptions="Center"
+                          VerticalOptions="Center"/>
+    </Grid>
+
+</ContentPage>

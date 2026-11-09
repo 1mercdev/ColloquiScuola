@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="SchoolMeetings.Mobile.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:SchoolMeetings.Mobile"
+    xmlns:views="clr-namespace:SchoolMeetings.Mobile.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.BackgroundColor="{AppThemeBinding Light=White, Dark=#1E1E1E}"
+    Shell.ForegroundColor="{AppThemeBinding Light=Black, Dark=White}"
+    Shell.TitleColor="{AppThemeBinding Light=Black, Dark=White}"
+    Shell.TabBarBackgroundColor= "{AppThemeBinding Light=#e6e6e6, Dark=#0d0d0d}">
+
+    <ShellContent
+        Route="login"
+        ContentTemplate="{DataTemplate views:LoginPage}" />
+
+    <TabBar Route="parenthome">
+        <ShellContent
+            Title="Docenti"
+            Route="teachers"
+            ContentTemplate="{DataTemplate views:TeachersPage}">
+            <ShellContent.Icon>
+                <FontImageSource 
+                    Glyph="👨‍🏫"
+                    FontFamily="Segoe UI Emoji"
+                    Size="30"/>
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent
+            Title="I Miei Figli"
+            Route="students"
+            ContentTemplate="{DataTemplate views:StudentsPage}">
+            <ShellContent.Icon>
+                <FontImageSource 
+                    Glyph="👤"
+                    FontFamily="Segoe UI Emoji"
+                    Size="30"/>
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent
+            Title="Prenotazioni"
+            Route="mybookings"
+            ContentTemplate="{DataTemplate views:MyBookingsPage}">
+            <ShellContent.Icon>
+                <FontImageSource 
+                    Glyph="📅"
+                    FontFamily="Segoe UI Emoji"
+                    Size="30"/>
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent
+            Title="Logout"
+            Route="logout"
+            ContentTemplate="{DataTemplate views:LogoutPage}">
+            <ShellContent.Icon>
+                <FontImageSource 
+                    Glyph="🚪"
+                    FontFamily="Segoe UI Emoji"
+                    Size="30"/>
+            </ShellContent.Icon>
+        </ShellContent>
+    </TabBar>
+
+    <TabBar Route="teacherhome">
+        <ShellContent
+            Title="Colloqui"
+            Route="teacherbookings"
+            ContentTemplate="{DataTemplate views:TeacherBookingsPage}">
+            <ShellContent.Icon>
+                <FontImageSource 
+                    Glyph="📋"
+                    FontFamily="Segoe UI Emoji"
+                    Size="30"/>
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent
+            Title="Genera Slot"
+            Route="generateslots"
+            ContentTemplate="{DataTemplate views:GenerateTimeSlotsPage}">
+            <ShellContent.Icon>
+                <FontImageSource 
+                    Glyph="➕"
+                    FontFamily="Segoe UI Emoji"
+                    Size="30"/>
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent
+            Title="Logout"
+            Route="teacherlogout"
+            ContentTemplate="{DataTemplate views:LogoutPage}">
+            <ShellContent.Icon>
+                <FontImageSource 
+                    Glyph="🚪"
+                    FontFamily="Segoe UI Emoji"
+                    Size="30"/>
+            </ShellContent.Icon>
+        </ShellContent>
+    </TabBar>
+
+    <TabBar Route="adminhome">
+        <ShellContent
+            Title="Docenti"
+            Route="manageteachers"
+            ContentTemplate="{DataTemplate views:ManageTeachersPage}">
+            <ShellContent.Icon>
+                <FontImageSource 
+                    Glyph="👥"
+                    FontFamily="Segoe UI Emoji"
+                    Size="30"/>
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent
+            Title="Pulizia DB"
+            Route="cleanup"
+            ContentTemplate="{DataTemplate views:CleanupPage}">
+            <ShellContent.Icon>
+                <FontImageSource 
+                    Glyph="🗑️"
+                    FontFamily="Segoe UI Emoji"
+                    Size="30"/>
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent
+            Title="Logout"
+            Route="adminlogout"
+            ContentTemplate="{DataTemplate views:LogoutPage}">
+            <ShellContent.Icon>
+                <FontImageSource 
+                    Glyph="🚪"
+                    FontFamily="Segoe UI Emoji"
+                    Size="30"/>
+            </ShellContent.Icon>
+        </ShellContent>
+    </TabBar>
+
+</Shell>

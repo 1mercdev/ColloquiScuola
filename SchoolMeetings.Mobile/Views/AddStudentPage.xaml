@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SchoolMeetings.Mobile.ViewModels"
+             x:Class="SchoolMeetings.Mobile.Views.AddStudentPage"
+             x:DataType="vm:AddStudentViewModel"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Nome *" FontAttributes="Bold"/>
+            <Border Stroke="Gray" StrokeThickness="1" Padding="10">
+                <Entry Placeholder="Nome"
+                       Text="{Binding FirstName}"
+                       ClearButtonVisibility="WhileEditing"/>
+            </Border>
+
+            <Label Text="Cognome *" FontAttributes="Bold"/>
+            <Border Stroke="Gray" StrokeThickness="1" Padding="10">
+                <Entry Placeholder="Cognome"
+                       Text="{Binding LastName}"
+                       ClearButtonVisibility="WhileEditing"/>
+            </Border>
+
+            <Label Text="Classe *" FontAttributes="Bold"/>
+            <Border Stroke="Gray" StrokeThickness="1" Padding="10">
+                <Entry Placeholder="Es: 3A, 2B"
+                       Text="{Binding StudentClass}"
+                       ClearButtonVisibility="WhileEditing"/>
+            </Border>
+
+            <Label Text="Note (opzionale)" FontAttributes="Bold"/>
+            <Border Stroke="Gray" StrokeThickness="1" Padding="10">
+                <Editor Placeholder="Note aggiuntive..."
+                        Text="{Binding Notes}"
+                        HeightRequest="100"
+                        AutoSize="TextChanges"/>
+            </Border>
+
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="Red"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                   HorizontalOptions="Center"/>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,20,0,0">
+                <Button Grid.Column="0"
+                        Text="Annulla"
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="Gray"/>
+
+                <Button Grid.Column="1"
+                        Text="Salva"
+                        Command="{Binding SaveCommand}"
+                        IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
+            </Grid>
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                              IsVisible="{Binding IsBusy}"
+                              HorizontalOptions="Center"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

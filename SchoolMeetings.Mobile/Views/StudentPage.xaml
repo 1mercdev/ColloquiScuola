@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SchoolMeetings.Mobile.ViewModels"
+             xmlns:models="clr-namespace:SchoolMeetings.Mobile.Models"
+             x:Class="SchoolMeetings.Mobile.Views.StudentsPage"
+             x:DataType="vm:StudentsViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto" Padding="10">
+            <Label Grid.Column="0" 
+                   Text="I Miei Figli" 
+                   FontSize="24" 
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"/>
+
+            <Button Grid.Column="1"
+                    Text="+"
+                    FontSize="24"
+                    WidthRequest="50"
+                    HeightRequest="50"
+                    CornerRadius="25"
+                    Command="{Binding AddStudentCommand}"/>
+        </Grid>
+
+        <CollectionView Grid.Row="1"
+                       ItemsSource="{Binding Students}"
+                       Margin="10">
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center" 
+                                    HorizontalOptions="Center"
+                                    Spacing="10">
+                    <Label Text="Nessun figlio aggiunto"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Clicca + per aggiungerne uno"
+                           FontSize="14"
+                           TextColor="Gray"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Student">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Elimina"
+                                          BackgroundColor="Red"
+                                          Command="{Binding x:DataType=vm:StudentsViewModel, Source={RelativeSource AncestorType={x:Type vm:StudentsViewModel}}, Path=DeleteStudentCommand}"
+                                          CommandParameter="{Binding .}"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Border Stroke="LightGray"
+                                StrokeThickness="1"
+                                Padding="15"
+                                Margin="0,5">
+                            <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,Auto">
+
+                                <Label Grid.Row="0" Grid.Column="0"
+                                       Text="{Binding FullName}"
+                                       FontSize="18"
+                                       FontAttributes="Bold"/>
+
+                                <Label Grid.Row="1" Grid.Column="0"
+                                       Text="{Binding Class, StringFormat='Classe: {0}'}"
+                                       FontSize="14"
+                                       TextColor="Gray"/>
+
+                                <Label Grid.Row="2" Grid.Column="0"
+                                       Text="{Binding Notes}"
+                                       FontSize="12"
+                                       TextColor="DarkGray"
+                                       IsVisible="{Binding Notes, Converter={StaticResource StringNotEmptyConverter}}"/>
+
+                            </Grid>
+                        </Border>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="2"
+                Text="Aggiorna"
+                Command="{Binding LoadStudentsCommand}"
+                Margin="10"
+                IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"/>
+
+        <ActivityIndicator Grid.Row="1"
+                          IsRunning="{Binding IsBusy}"
+                          IsVisible="{Binding IsBusy}"
+                          HorizontalOptions="Center"
+                          VerticalOptions="Center"/>
+    </Grid>
+
+</ContentPage>

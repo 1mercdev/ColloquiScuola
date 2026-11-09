@@ -1,0 +1,157 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('Windows'))">net10.0-android;</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('OSX'))">net10.0-ios</TargetFrameworks>
+
+		<OutputType>Exe</OutputType>
+		<RootNamespace>SchoolMeetings.Mobile</RootNamespace>
+		<UseMaui>true</UseMaui>
+		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<!-- Display name -->
+		<ApplicationTitle>ColloquiScuolaDiaz</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.mercuriodev.colloquiscuola</ApplicationId>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationVersion>1</ApplicationVersion>
+
+		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
+		<WindowsPackageType>None</WindowsPackageType>
+
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net10.0-android|AnyCPU'">
+	  <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
+		<AndroidEnableGoogleServicesGradlePlugin>true</AndroidEnableGoogleServicesGradlePlugin>
+		<FirebaseCrashlyticsEnabled>false</FirebaseCrashlyticsEnabled>
+		<AndroidEnableCrashlytics>false</AndroidEnableCrashlytics>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)'=='Release|net10.0-android'">
+		<AndroidKeyStore>true</AndroidKeyStore>
+		<AndroidSigningKeyStore>$(AndroidSigningKeyStore)</AndroidSigningKeyStore>
+		<AndroidSigningKeyAlias>$(AndroidSigningKeyAlias)</AndroidSigningKeyAlias>
+		<AndroidSigningKeyPass>$(AndroidSigningKeyPass)</AndroidSigningKeyPass>
+		<AndroidSigningStorePass>$(AndroidSigningStorePass)</AndroidSigningStorePass>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-ios'">
+	    <ApplicationId>com.mercuriodev.colloquiscuola</ApplicationId>
+		<SupportedOSPlatformVersion>14.0</SupportedOSPlatformVersion>
+		<CodesignKey>Apple Development</CodesignKey>
+		<CodesignProvision></CodesignProvision>
+		<ProvisioningType>automatic</ProvisioningType>
+		<CodesignEntitlements>Platforms\iOS\Entitlements.plist</CodesignEntitlements>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#FFFFFF" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#FFFFFF" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+		
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <AndroidResource Remove="Platforms\Android\Resources\values\strings.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="build-android-release.bat" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Maui" Version="16.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="10.0.14" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.14" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.20" />
+		<PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.130" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+		<PackageReference Include="Plugin.Firebase.CloudMessaging" Version="4.0.1" />
+		<PackageReference Include="Plugin.Firebase.Core" Version="4.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<GoogleServicesJson Include="Platforms\Android\google-services.json" Condition="'$(TargetFramework)' == 'net10.0-android'" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<BundleResource Include="Platforms\iOS\GoogleService-Info.plist" Link="GoogleService-Info.plist" Condition="'$(TargetFramework)' == 'net10.0-ios'" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\AddStudentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\AddTeacherPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\BookingConfirmPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CleanupPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\EditTeacherPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\GenerateTimeSlotsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\LogoutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ManageTeachersPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\MyBookingsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\RegisterPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\StudentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\TeacherBookingsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\TeachersPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\TimeSlotPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="Microsoft.Maui.Controls" Version="10.0.130" />
+	</ItemGroup>
+
+</Project>

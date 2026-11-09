@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SchoolMeetings.Mobile.ViewModels"
+             x:Class="SchoolMeetings.Mobile.Views.RegisterPage"
+             x:DataType="vm:RegisterViewModel"
+             Title="{Binding Title}"
+             Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="15" VerticalOptions="Center">
+
+            <Label Text="Colloqui Scuola Diaz"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,10"/>
+
+            <Label Text="Crea un account"
+                   FontSize="18"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,20"/>
+
+            <Label Text="Email *" FontAttributes="Bold" FontSize="14"/>
+            <Border Stroke="Gray" StrokeThickness="1" Padding="10">
+                <Entry Placeholder="Email"
+                       Text="{Binding Email}"
+                       Keyboard="Email"
+                       ClearButtonVisibility="WhileEditing"/>
+            </Border>
+
+            <Label Text="Password *" FontAttributes="Bold" FontSize="14"/>
+            <Border Stroke="Gray" StrokeThickness="1" Padding="10">
+                <Entry Placeholder="Password (min 6 caratteri)"
+                       Text="{Binding Password}"
+                       IsPassword="True"
+                       ClearButtonVisibility="WhileEditing"/>
+            </Border>
+
+            <Label Text="Conferma Password *" FontAttributes="Bold" FontSize="14"/>
+            <Border Stroke="Gray" StrokeThickness="1" Padding="10">
+                <Entry Placeholder="Conferma password"
+                       Text="{Binding ConfirmPassword}"
+                       IsPassword="True"
+                       ClearButtonVisibility="WhileEditing"/>
+            </Border>
+
+            <Label Text="Nome *" FontAttributes="Bold" FontSize="14"/>
+            <Border Stroke="Gray" StrokeThickness="1" Padding="10">
+                <Entry Placeholder="Nome"
+                       Text="{Binding FirstName}"
+                       ClearButtonVisibility="WhileEditing"/>
+            </Border>
+
+            <Label Text="Cognome *" FontAttributes="Bold" FontSize="14"/>
+            <Border Stroke="Gray" StrokeThickness="1" Padding="10">
+                <Entry Placeholder="Cognome"
+                       Text="{Binding LastName}"
+                       ClearButtonVisibility="WhileEditing"/>
+            </Border>
+
+            <Label Text="Telefono (opzionale)" FontAttributes="Bold" FontSize="14"/>
+            <Border Stroke="Gray" StrokeThickness="1" Padding="10">
+                <Entry Placeholder="Telefono"
+                       Text="{Binding Phone}"
+                       Keyboard="Telephone"
+                       ClearButtonVisibility="WhileEditing"/>
+            </Border>
+
+            <Label Text="Codice Scuola *" FontAttributes="Bold" FontSize="14"/>
+            <Border Stroke="Gray" StrokeThickness="1" Padding="10">
+                <Entry Placeholder="Es: ABC123"
+                       Text="{Binding SchoolCode}"
+                       ClearButtonVisibility="WhileEditing"/>
+            </Border>
+
+            <Label Text="Chiedi il codice alla tua scuola"
+                   FontSize="12"
+                   TextColor="Gray"
+                   HorizontalOptions="Start"
+                   Margin="0,-10,0,0"/>
+
+            <HorizontalStackLayout Spacing="10" Margin="0,10,0,0">
+                <CheckBox IsChecked="{Binding IsAdmin}" VerticalOptions="Center"/>
+                <Label Text="Sono un amministratore scolastico"
+           FontSize="14"
+           VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="Red"
+                   IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   LineBreakMode="WordWrap"/>
+
+            <Button Text="Registrati"
+                    Command="{Binding RegisterCommand}"
+                    IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+                    HeightRequest="50"
+                    FontSize="18"
+                    Margin="0,10,0,0"/>
+
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                              IsVisible="{Binding IsBusy}"
+                              HorizontalOptions="Center"/>
+
+            <HorizontalStackLayout HorizontalOptions="Center" Margin="0,20,0,0" Spacing="5">
+                <Label Text="Hai già un account?"
+                       FontSize="14"
+                       VerticalOptions="Center"/>
+                <Label Text="Accedi"
+                       FontSize="14"
+                       TextColor="#4A90E2"
+                       TextDecorations="Underline"
+                       VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToLoginCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

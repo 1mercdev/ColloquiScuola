@@ -1,0 +1,62 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:SchoolMeetings.Mobile"
+             xmlns:helpers="clr-namespace:SchoolMeetings.Mobile.Helpers"
+             x:Class="SchoolMeetings.Mobile.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <helpers:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+            <helpers:StringNotEmptyConverter x:Key="StringNotEmptyConverter" />
+            <helpers:StatusColorConverter x:Key="StatusColorConverter" />
+            <helpers:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <helpers:BoolToStatusConverter x:Key="BoolToStatusConverter" />
+
+            <Color x:Key="PrimaryTextColorLight">#000000</Color>
+            <Color x:Key="SecondaryTextColorLight">#666666</Color>
+            <Color x:Key="BackgroundColorLight">#FFFFFF</Color>
+            <Color x:Key="CardBackgroundColorLight">#F5F5F5</Color>
+
+            <Color x:Key="PrimaryTextColorDark">#FFFFFF</Color>
+            <Color x:Key="SecondaryTextColorDark">#AAAAAA</Color>
+            <Color x:Key="BackgroundColorDark">#121212</Color>
+            <Color x:Key="CardBackgroundColorDark">#1E1E1E</Color>
+
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PrimaryTextColorLight}, Dark={StaticResource PrimaryTextColorDark}}" />
+            </Style>
+
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PrimaryTextColorLight}, Dark={StaticResource PrimaryTextColorDark}}" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=#2C2C2C}" />
+                <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource SecondaryTextColorLight}, Dark={StaticResource SecondaryTextColorDark}}" />
+            </Style>
+
+            <Style TargetType="Editor">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PrimaryTextColorLight}, Dark={StaticResource PrimaryTextColorDark}}" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=#2C2C2C}" />
+            </Style>
+
+            <Style TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource BackgroundColorLight}, Dark={StaticResource BackgroundColorDark}}" />
+            </Style>
+
+            <Style TargetType="Border">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackgroundColorLight}, Dark={StaticResource CardBackgroundColorDark}}" />
+                <Setter Property="Stroke" Value="{AppThemeBinding Light=#CCCCCC, Dark=#3C3C3C}" />
+            </Style>
+
+            <Style TargetType="SearchBar">
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource PrimaryTextColorLight}, Dark={StaticResource PrimaryTextColorDark}}" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=White, Dark=#2C2C2C}" />
+                <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light= {StaticResource SecondaryTextColorLight}, Dark={StaticResource SecondaryTextColorDark}}" />
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
